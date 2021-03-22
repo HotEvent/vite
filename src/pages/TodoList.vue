@@ -4,7 +4,7 @@
     <button @click="countService.increase()">add</button>
     {{countService.name}}
     <div v-if="!loading">
-      <div v-for="todo in items" v-bind:key="todo.nodeId">
+      <div v-for="todo in items" :key="todo.nodeId">
         {{ todo.task }}
       </div>
     </div>
