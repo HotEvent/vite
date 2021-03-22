@@ -4,16 +4,33 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "y": "graphql-codegen --config codegen.yml --watch",
+    "postinstall": "node scripts/vue-apollo-patch.js"
   },
   "dependencies": {
-    "vue": "^3.0.5"
+    "@apollo/client": "^3.3.12",
+    "@graphql-codegen/cli": "^1.21.3",
+    "@graphql-codegen/introspection": "1.18.1",
+    "@graphql-codegen/typescript": "1.19.0",
+    "@graphql-codegen/typescript-document-nodes": "1.17.9",
+    "@graphql-codegen/typescript-graphql-files-modules": "1.18.1",
+    "@graphql-codegen/typescript-operations": "1.17.13",
+    "@graphql-codegen/typescript-vue-apollo": "^2.3.3",
+    "@vue/apollo-composable": "^4.0.0-alpha.12",
+    "ant-design-vue": "^2.1.0",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.11.0",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.1.5",
+    "@vue/cli-plugin-router": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.5",
     "typescript": "^4.1.3",
     "vite": "^2.1.0",
+    "vue-cli-plugin-apollo": "~0.22.2",
     "vue-tsc": "^0.0.8"
   }
 }

@@ -1,34 +1,28 @@
 <template>
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-  <Login />
+  <router-view></router-view>
 </template>
 
 <script lang="ts">
 import { defineComponent, provide, reactive } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
-import Login from "./components/Login.vue";
-
 import { RootService } from "./services/servicehub";
+import { DefaultApolloClient } from '@vue/apollo-composable';
+import { apolloClient } from "./client.config";
 export default defineComponent({
   name: "App",
-  components: {
-    HelloWorld,
-    Login
-  },
   setup(){
     const rootService = reactive(new RootService());
     provide('rootService',rootService)
+
+    provide(DefaultApolloClient,apolloClient)
   }
 });
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  
+}
+.ant-layout-sider{
+  min-height: 100vh;
 }
 </style>
