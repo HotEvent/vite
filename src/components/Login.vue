@@ -10,12 +10,8 @@
 import { ref, defineComponent, provide, inject,reactive } from 'vue'
 import { RootService } from '../services/servicehub'
 export default defineComponent({
-  name: 'HelloWorld',
+  name: 'Login',
   props: {
-    msg: {
-      type: String,
-      required: true
-    }
   },
   created(){
     console.log(this)

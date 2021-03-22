@@ -1,16 +1,19 @@
 <template>
   <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <Login />
 </template>
 
 <script lang="ts">
 import { defineComponent, provide, reactive } from "vue";
 import HelloWorld from "./components/HelloWorld.vue";
-import { CountService } from "./services/count.service";
+import Login from "./components/Login.vue";
+
 import { RootService } from "./services/servicehub";
 export default defineComponent({
   name: "App",
   components: {
     HelloWorld,
+    Login
   },
   setup(){
     const rootService = reactive(new RootService());
