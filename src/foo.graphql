@@ -1,9 +1,17 @@
- query AllTodos($first: Int,$offset: Int,$filter:TodoFilter) {
+ query AllTodos($first: Int,$offset: Int,$filter:TodoFilter,$userFilter:UserFilter) {
     allTodos(first:$first,offset: $offset,filter:$filter) {
       totalCount
       nodes{
         task
         nodeId
+        
+      }
+    }
+    allUsers(filter:$userFilter) {
+      totalCount
+      nodes{
+        name
+        id
         
       }
     }

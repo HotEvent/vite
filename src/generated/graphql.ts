@@ -36,9 +36,14 @@ export type Query = Node & {
   node?: Maybe<Node>;
   /** Reads and enables pagination through a set of `Todo`. */
   allTodos?: Maybe<TodosConnection>;
+  /** Reads and enables pagination through a set of `User`. */
+  allUsers?: Maybe<UsersConnection>;
   todoById?: Maybe<Todo>;
+  userById?: Maybe<User>;
   /** Reads a single `Todo` using its globally unique `ID`. */
   todo?: Maybe<Todo>;
+  /** Reads a single `User` using its globally unique `ID`. */
+  user?: Maybe<User>;
 };
 
 
@@ -62,13 +67,38 @@ export type QueryAllTodosArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryAllUsersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+  condition?: Maybe<UserCondition>;
+  filter?: Maybe<UserFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryTodoByIdArgs = {
   id: Scalars['Int'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryUserByIdArgs = {
+  id: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryTodoArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -326,25 +356,111 @@ export type DatetimeFilter = {
   greaterThanOrEqualTo?: Maybe<Scalars['Datetime']>;
 };
 
+/** A connection to a list of `User` values. */
+export type UsersConnection = {
+  __typename?: 'UsersConnection';
+  /** A list of `User` objects. */
+  nodes: Array<Maybe<User>>;
+  /** A list of edges which contains the `User` and cursor to aid in pagination. */
+  edges: Array<UsersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `User` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type User = Node & {
+  __typename?: 'User';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+};
+
+/** A `User` edge in the connection. */
+export type UsersEdge = {
+  __typename?: 'UsersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `User` at the end of the edge. */
+  node?: Maybe<User>;
+};
+
+/** Methods to use when ordering `User`. */
+export enum UsersOrderBy {
+  Natural = 'NATURAL',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  EmailAsc = 'EMAIL_ASC',
+  EmailDesc = 'EMAIL_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type UserCondition = {
+  /** Checks for equality with the object’s `name` field. */
+  name?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `email` field. */
+  email?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `User` object types. All fields are combined with a logical ‘and.’ */
+export type UserFilter = {
+  /** Filter by the object’s `name` field. */
+  name?: Maybe<StringFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `email` field. */
+  email?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<UserFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<UserFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<UserFilter>;
+};
+
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a single `Todo`. */
   createTodo?: Maybe<CreateTodoPayload>;
+  /** Creates a single `User`. */
+  createUser?: Maybe<CreateUserPayload>;
   /** Updates a single `Todo` using its globally unique id and a patch. */
   updateTodo?: Maybe<UpdateTodoPayload>;
   /** Updates a single `Todo` using a unique key and a patch. */
   updateTodoById?: Maybe<UpdateTodoPayload>;
+  /** Updates a single `User` using its globally unique id and a patch. */
+  updateUser?: Maybe<UpdateUserPayload>;
+  /** Updates a single `User` using a unique key and a patch. */
+  updateUserById?: Maybe<UpdateUserPayload>;
   /** Deletes a single `Todo` using its globally unique id. */
   deleteTodo?: Maybe<DeleteTodoPayload>;
   /** Deletes a single `Todo` using a unique key. */
   deleteTodoById?: Maybe<DeleteTodoPayload>;
+  /** Deletes a single `User` using its globally unique id. */
+  deleteUser?: Maybe<DeleteUserPayload>;
+  /** Deletes a single `User` using a unique key. */
+  deleteUserById?: Maybe<DeleteUserPayload>;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateTodoArgs = {
   input: CreateTodoInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
 };
 
 
@@ -361,6 +477,18 @@ export type MutationUpdateTodoByIdArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserByIdArgs = {
+  input: UpdateUserByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteTodoArgs = {
   input: DeleteTodoInput;
 };
@@ -369,6 +497,18 @@ export type MutationDeleteTodoArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteTodoByIdArgs = {
   input: DeleteTodoByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserArgs = {
+  input: DeleteUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserByIdArgs = {
+  input: DeleteUserByIdInput;
 };
 
 /** The output of our create `Todo` mutation. */
@@ -410,6 +550,46 @@ export type TodoInput = {
   done?: Maybe<Scalars['Boolean']>;
   task: Scalars['String'];
   due?: Maybe<Scalars['Datetime']>;
+};
+
+/** The output of our create `User` mutation. */
+export type CreateUserPayload = {
+  __typename?: 'CreateUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` that was created by this mutation. */
+  user?: Maybe<User>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our create `User` mutation. */
+export type CreateUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the create `User` mutation. */
+export type CreateUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` to be created by this mutation. */
+  user: UserInput;
+};
+
+/** An input for mutations affecting `User` */
+export type UserInput = {
+  name?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
 };
 
 /** The output of our update `Todo` mutation. */
@@ -467,6 +647,60 @@ export type UpdateTodoByIdInput = {
   id: Scalars['Int'];
 };
 
+/** The output of our update `User` mutation. */
+export type UpdateUserPayload = {
+  __typename?: 'UpdateUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` that was updated by this mutation. */
+  user?: Maybe<User>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our update `User` mutation. */
+export type UpdateUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the `updateUser` mutation. */
+export type UpdateUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `User` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `User` being updated. */
+  userPatch: UserPatch;
+};
+
+/** Represents an update to a `User`. Fields that are set will be updated. */
+export type UserPatch = {
+  name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updateUserById` mutation. */
+export type UpdateUserByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `User` being updated. */
+  userPatch: UserPatch;
+  id: Scalars['String'];
+};
+
 /** The output of our delete `Todo` mutation. */
 export type DeleteTodoPayload = {
   __typename?: 'DeleteTodoPayload';
@@ -511,10 +745,55 @@ export type DeleteTodoByIdInput = {
   id: Scalars['Int'];
 };
 
+/** The output of our delete `User` mutation. */
+export type DeleteUserPayload = {
+  __typename?: 'DeleteUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` that was deleted by this mutation. */
+  user?: Maybe<User>;
+  deletedUserId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our delete `User` mutation. */
+export type DeleteUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the `deleteUser` mutation. */
+export type DeleteUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `User` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteUserById` mutation. */
+export type DeleteUserByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+};
+
 export type AllTodosQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   filter?: Maybe<TodoFilter>;
+  userFilter?: Maybe<UserFilter>;
 }>;
 
 
@@ -526,6 +805,13 @@ export type AllTodosQuery = (
     & { nodes: Array<Maybe<(
       { __typename?: 'Todo' }
       & Pick<Todo, 'task' | 'nodeId'>
+    )>> }
+  )>, allUsers?: Maybe<(
+    { __typename?: 'UsersConnection' }
+    & Pick<UsersConnection, 'totalCount'>
+    & { nodes: Array<Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'name' | 'id'>
     )>> }
   )> }
 );
@@ -558,12 +844,19 @@ export type DeleteTodoMutation = (
 
 
 export const AllTodosDocument = gql`
-    query AllTodos($first: Int, $offset: Int, $filter: TodoFilter) {
+    query AllTodos($first: Int, $offset: Int, $filter: TodoFilter, $userFilter: UserFilter) {
   allTodos(first: $first, offset: $offset, filter: $filter) {
     totalCount
     nodes {
       task
       nodeId
+    }
+  }
+  allUsers(filter: $userFilter) {
+    totalCount
+    nodes {
+      name
+      id
     }
   }
 }
@@ -584,6 +877,7 @@ export const AllTodosDocument = gql`
  *   first: // value for 'first'
  *   offset: // value for 'offset'
  *   filter: // value for 'filter'
+ *   userFilter: // value for 'userFilter'
  * });
  */
 export function useAllTodosQuery(variables: AllTodosQueryVariables | VueCompositionApi.Ref<AllTodosQueryVariables> | ReactiveFunction<AllTodosQueryVariables> = {}, options: VueApolloComposable.UseQueryOptions<AllTodosQuery, AllTodosQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<AllTodosQuery, AllTodosQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<AllTodosQuery, AllTodosQueryVariables>> = {}) {
